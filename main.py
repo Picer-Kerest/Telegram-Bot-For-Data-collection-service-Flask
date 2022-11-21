@@ -43,7 +43,6 @@ def parse_text(text_msg):
     # Значения из scraping.api.urls.py
     command_p = r'/\w+'
     dog_pattern = r'@\w+'
-    # dog_pattern = r'@\w+-\w+$'
     message = 'Invalid request'
     if '/' in text_msg:
         if '/start' in text_msg or '/help' in text_msg:
@@ -54,15 +53,13 @@ def parse_text(text_msg):
             Example: `@moscow @python`
             '''
             return message
-        else: #'/cities' in text_msg or '/languages' in text_msg:
+        else:
             command = re.search(command_p, text_msg).group().replace('/', '')  # group: MatchObject ->str
             command = adresses.get(command, None)
             return [command] if command else None
             # Возвращаем список, потому что может быть несколько команд в строке.
             # Ниже пример такой строки
-        # else:
-        #     return message
-        
+
     elif '@' in text_msg:
         if '@sankt-peterburg' in text_msg:
             commands = text_msg.replace('@', '').split()  # replace return str
