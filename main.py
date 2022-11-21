@@ -56,8 +56,8 @@ def parse_text(text_msg):
             return message
         else: #'/cities' in text_msg or '/languages' in text_msg:
             command = re.search(command_p, text_msg).group().replace('/', '')  # group: MatchObject ->str
-            command = adresses.get(command)
-            return [command]
+            command = adresses.get(command, None)
+            return [command] if command else None
             # Возвращаем список, потому что может быть несколько команд в строке.
             # Ниже пример такой строки
         # else:
