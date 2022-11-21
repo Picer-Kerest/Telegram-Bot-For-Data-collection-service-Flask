@@ -67,8 +67,8 @@ def parse_text(text_msg):
             commands = ['sankt-peterburg', 'python']
             return commands
         else:
-            result = re.findall(dog_pattern, text_msg)  # ['@python', '@moscow']
-            commands = [el.replace('@', '') for el in result]  # ['python', 'moscow']
+            result = re.findall(dog_pattern, text_msg)
+            commands = [el.replace('@', '') for el in result]
             return commands if len(commands) == 2 else None
 
     else:
@@ -135,7 +135,7 @@ class BotAPI(MethodView):
 
                     for part in pieces:
                         # Потом для каждой части, формируем новый ответ
-                        #  добавляем его в тот же чат
+                        # И добавляем его в тот же чат
                         message = ''
                         for v in part:
                             message += v['title'] + '\n'
