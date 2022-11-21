@@ -49,7 +49,7 @@ def parse_text(text_msg):
         if '/start' in text_msg or '/help' in text_msg:
             message = 'To view cities: `/city`\nTo view programming languages: `/language`\n' \
                       'To make a job request, enter separated by a space: `@city @language`\n' \
-                      'Example: `@moscow @python`\n'
+                      'Example: `@Moscow @Python`\n'
             return message
         else:
             command = re.search(command_p, text_msg).group().replace('/', '')  # group: MatchObject ->str
