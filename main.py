@@ -6,8 +6,8 @@ from flask.views import MethodView
 from flask import request
 from utils import from_cyrillic_to_eng
 import os
-# from dotenv import load_dotenv
-# load_dotenv()
+from dotenv import load_dotenv
+load_dotenv()
 # For local
 
 
@@ -59,7 +59,7 @@ def parse_text(text_msg):
             # Ниже пример такой строки
 
     elif '@' in text_msg:
-        if '@sankt-peterburg' in text_msg:
+        if '@Sankt Peterburg' in text_msg:
             commands = text_msg.replace('@', '').split()  # replace return str
             return commands                               # split return list
         else:
@@ -149,8 +149,8 @@ class BotAPI(MethodView):
         return '', 200
 
 
-# app.add_url_rule('/TOKEN/', view_func=BotAPI.as_view('bot'))  # for local
-app.add_url_rule(f'/{TOKEN}/', view_func=BotAPI.as_view('bot'))  # for production
+app.add_url_rule('/TOKEN/', view_func=BotAPI.as_view('bot'))  # for local
+# app.add_url_rule(f'/{TOKEN}/', view_func=BotAPI.as_view('bot'))  # for production
 # Общая рекомендация по названию адреса
 
 
