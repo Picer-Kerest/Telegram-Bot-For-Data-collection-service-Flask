@@ -4,10 +4,11 @@ import copy
 from flask import Flask, redirect, url_for, session
 from flask.views import MethodView
 from flask import request
+from utils import from_cyrillic_to_eng
 import os
-from dotenv import load_dotenv
-load_dotenv()
-# For local No need
+# from dotenv import load_dotenv
+# load_dotenv()
+# For local
 
 
 app = Flask(__name__)
@@ -98,7 +99,7 @@ class BotAPI(MethodView):
                 msg = ''
                 if resp:
                     for d in resp:
-                        message += '#' + d['slug'] + '\n'
+                        message += '#' + d['name'] + '\n'
                     if tmp[0] == '/languages':
                         msg = 'Available programming languages: \n'
                     elif tmp[0] == '/cities':
@@ -109,7 +110,10 @@ class BotAPI(MethodView):
             elif len(tmp) == 2:
                 # tmp = ['python', 'moscow']
                 # ?city=moscow&language=python
-                command = '/vacancy/?city={}&language={}'.format(*tmp)
+                # tmp = ['Python', 'Moscow']
+                city_slug = from_cyrillic_to_eng(str(tmp[0]))
+                language_slug = from_cyrillic_to_eng(str(tmp[1]))
+                command = '/vacancy/?city={}&language={}'.format(city_slug, language_slug)
                 resp = get_data_from_api(command)
                 if resp:
                     pieces = []
@@ -145,8 +149,8 @@ class BotAPI(MethodView):
         return '', 200
 
 
-app.add_url_rule('/TOKEN/', view_func=BotAPI.as_view('bot'))  # for local
-# app.add_url_rule(f'/{TOKEN}/', view_func=BotAPI.as_view('bot'))  # for production
+# app.add_url_rule('/TOKEN/', view_func=BotAPI.as_view('bot'))  # for local
+app.add_url_rule(f'/{TOKEN}/', view_func=BotAPI.as_view('bot'))  # for production
 # Общая рекомендация по названию адреса
 
 
