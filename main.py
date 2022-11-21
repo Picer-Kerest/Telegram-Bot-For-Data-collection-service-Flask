@@ -5,8 +5,8 @@ from flask import Flask, redirect, url_for, session
 from flask.views import MethodView
 from flask import request
 import os
-# from dotenv import load_dotenv
-# load_dotenv()
+from dotenv import load_dotenv
+load_dotenv()
 # For local No need
 
 
@@ -46,23 +46,14 @@ def parse_text(text_msg):
     message = 'Invalid request'
     if '/' in text_msg:
         if '/start' in text_msg or '/help' in text_msg:
-            message = '''
-            To view cities: `/city`
-            To view programming languages: `/language` 
-            To make a job request, enter separated by a space: `@city @language`
-            Example: `@moscow @python`
-            '''
+            message = 'To view cities: `/city`\nTo view programming languages: `/language`\n' \
+                      'To make a job request, enter separated by a space: `@city @language`\n' \
+                      'Example: `@moscow @python`\n'
             return message
-        elif '/cities' in text_msg or '/languages' in text_msg:
-            command = re.search(command_p, text_msg).group().replace('/', '')  # group: MatchObject ->str
-            command = adresses.get(command)
-            return [command]
         else:
-            return message
-        # else:
-        #     command = re.search(command_p, text_msg).group().replace('/', '')  # group: MatchObject ->str
-        #     command = adresses.get(command, None)
-        #     return [command] if command else None
+            command = re.search(command_p, text_msg).group().replace('/', '')  # group: MatchObject ->str
+            command = adresses.get(command, None)
+            return [command] if command else None
             # Возвращаем список, потому что может быть несколько команд в строке.
             # Ниже пример такой строки
 
@@ -154,8 +145,8 @@ class BotAPI(MethodView):
         return '', 200
 
 
-# app.add_url_rule('/TOKEN/', view_func=BotAPI.as_view('bot'))  # for local
-app.add_url_rule(f'/{TOKEN}/', view_func=BotAPI.as_view('bot'))  # for production
+app.add_url_rule('/TOKEN/', view_func=BotAPI.as_view('bot'))  # for local
+# app.add_url_rule(f'/{TOKEN}/', view_func=BotAPI.as_view('bot'))  # for production
 # Общая рекомендация по названию адреса
 
 
