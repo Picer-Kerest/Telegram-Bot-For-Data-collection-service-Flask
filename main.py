@@ -5,8 +5,9 @@ from flask import Flask, redirect, url_for, session
 from flask.views import MethodView
 from flask import request
 import os
-from dotenv import load_dotenv
-load_dotenv()
+# from dotenv import load_dotenv
+# load_dotenv()
+# For local No need
 
 
 app = Flask(__name__)
@@ -150,7 +151,8 @@ class BotAPI(MethodView):
         return '', 200
 
 
-app.add_url_rule('/TOKEN/', view_func=BotAPI.as_view('bot'))
+# app.add_url_rule('/TOKEN/', view_func=BotAPI.as_view('bot'))  # for local
+app.add_url_rule(f'/{TOKEN}/', view_func=BotAPI.as_view('bot'))  # for production
 # Общая рекомендация по названию адреса
 
 
