@@ -64,9 +64,9 @@ def parse_text(text_msg):
             return message
         
     elif '@' in text_msg:
-        if text_msg == '@sankt-peterburg @python' or text_msg == '@python @sankt-peterburg':
-            commands = ['sankt-peterburg', 'python']
-            return commands
+        if '@sankt-peterburg' in text_msg:
+            commands = text_msg.replace('@', '').split()  # replace return str
+            return commands                               # split return list
         else:
             result = re.findall(dog_pattern, text_msg)
             commands = [el.replace('@', '') for el in result]
