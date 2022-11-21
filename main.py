@@ -54,14 +54,14 @@ def parse_text(text_msg):
             Example: `@moscow @python`
             '''
             return message
-        elif '/cities' in text_msg or '/languages' in text_msg:
+        else: #'/cities' in text_msg or '/languages' in text_msg:
             command = re.search(command_p, text_msg).group().replace('/', '')  # group: MatchObject ->str
             command = adresses.get(command)
             return [command]
             # Возвращаем список, потому что может быть несколько команд в строке.
             # Ниже пример такой строки
-        else:
-            return message
+        # else:
+        #     return message
         
     elif '@' in text_msg:
         if '@sankt-peterburg' in text_msg:
