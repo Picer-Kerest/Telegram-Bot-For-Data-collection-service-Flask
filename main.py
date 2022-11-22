@@ -156,7 +156,7 @@ class BotAPI(MethodView):
                         if extra:
                             pieces.append(resp[y + 10:])
                     # Сначала отправляем в ответ заголовок
-                    text_msg = 'Search results:\n'
+                    text_msg = f'The result according to your request: {tmp[0]}, {tmp[1]}\n'
                     text_msg += '- ' * 38 + '\n'
                     send_message(chat_id, text_msg)
 
