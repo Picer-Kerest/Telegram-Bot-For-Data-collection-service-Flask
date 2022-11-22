@@ -17,6 +17,32 @@ API_URL = os.environ.get('API_URL')
 TELEGRAM_URL = f'https://api.telegram.org/bot{TOKEN}/sendMessage'
 
 
+def is_spb(text_msg):
+    """
+    Проверка на то, присутствует ли @Sankt Peterburg в введённом сообщении
+    return: ['Sankt Peterburg', 'Python']
+
+    # replace return str
+    # split return list
+    """
+    commands = []
+    if '@Sankt Peterburg' in text_msg:
+        tmp = text_msg.split()
+        if tmp[0] == '@Sankt':
+            # tmp = ['@Sankt', 'Peterburg', '@Python']
+            # commands = ['Sankt Peterburg', 'Python']
+            commands.append(tmp[0].replace('@', '') + ' ' + tmp[1])
+            commands.append(tmp[2].replace('@', ''))
+        elif tmp[1] == '@Sankt':
+            # tmp = ['@Python', '@Sankt', 'Peterburg']
+            # commands = ['Sankt Peterburg', 'Python']
+            commands.append(tmp[1].replace('@', '') + ' ' + tmp[2])
+            commands.append(tmp[0].replace('@', ''))
+        else:
+            commands = None
+    return commands
+
+
 def get_data_from_api(command):
     """
     return: http://127.0.0.1:8000/api/cities
@@ -48,7 +74,7 @@ def parse_text(text_msg):
     if '/' in text_msg:
         if '/start' in text_msg or '/help' in text_msg:
             message = 'To view cities: `/city`\nTo view programming languages: `/language`\n' \
-                      'To make a job request, enter separated by a space: `@city @language`\n' \
+                      'To make a job request, enter separated by a space: `@City @Language`\n' \
                       'Example: `@Moscow @Python`\n'
             return message
         else:
@@ -60,8 +86,10 @@ def parse_text(text_msg):
 
     elif '@' in text_msg:
         if '@Sankt Peterburg' in text_msg:
-            commands = text_msg.replace('@', '').split()  # replace return str
-            return commands                               # split return list
+            commands = is_spb(text_msg)
+            return commands
+            # commands = text_msg.replace('@', '').split()  # replace return str
+            # return commands                               # split return list
         else:
             result = re.findall(dog_pattern, text_msg)
             commands = [el.replace('@', '') for el in result]
@@ -128,7 +156,7 @@ class BotAPI(MethodView):
                         if extra:
                             pieces.append(resp[y + 10:])
                     # Сначала отправляем в ответ заголовок
-                    text_msg = 'Результаты поиска, согласно Вашего запроса:\n'
+                    text_msg = 'Search results:\n'
                     text_msg += '- ' * 38 + '\n'
                     send_message(chat_id, text_msg)
 
