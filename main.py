@@ -90,6 +90,11 @@ def parse_text(text_msg):
             return commands
             # commands = text_msg.replace('@', '').split()  # replace return str
             # return commands                               # split return list
+        elif '@C#' in text_msg:
+            if '@Sankt Peterburg' in text_msg:
+                return ['Sankt Peterburg', 'C#']
+            else:
+                return ['Moscow', 'C#']
         else:
             result = re.findall(dog_pattern, text_msg)
             commands = [el.replace('@', '') for el in result]
@@ -102,8 +107,8 @@ def parse_text(text_msg):
 @app.route('/', methods=['POST', 'GET'])
 def index():
     if request.method == 'POST':
-        return '<h1 align="center">POST METHOD from def index</h1>'
-    return '<h1 align="center">GET METHOD from def index</h1>'
+        return '<h1 align="center">POST METHOD from function</h1>'
+    return '<h1 align="center">GET METHOD from function</h1>'
 
 
 class BotAPI(MethodView):
@@ -157,7 +162,7 @@ class BotAPI(MethodView):
                             pieces.append(resp[y + 10:])
                     # Сначала отправляем в ответ заголовок
                     text_msg = f'The result according to your request: {tmp[0]}, {tmp[1]}\n'
-                    text_msg += '- ' * 38 + '\n'
+                    text_msg += '- ' * 30 + '\n'
                     send_message(chat_id, text_msg)
 
                     for part in pieces:
