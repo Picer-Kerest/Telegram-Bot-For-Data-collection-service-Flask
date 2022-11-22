@@ -93,8 +93,10 @@ def parse_text(text_msg):
         elif '@C#' in text_msg:
             if '@Sankt Peterburg' in text_msg:
                 return ['Sankt Peterburg', 'C#']
-            else:
+            elif '@Moscow' in text_msg:
                 return ['Moscow', 'C#']
+            else:
+                return None
         else:
             result = re.findall(dog_pattern, text_msg)
             commands = [el.replace('@', '') for el in result]
